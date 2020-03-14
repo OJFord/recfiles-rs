@@ -27,6 +27,12 @@ where
     Ok(serializer.output)
 }
 
+impl Serializer {
+    fn field_prefix_len(&self) -> usize {
+        "\n".len() + self.field.len() + ": ".len()
+    }
+}
+
 impl<'a> ser::Serializer for &'a mut Serializer {
     type Ok = ();
     type Error = Error;
@@ -101,7 +107,9 @@ impl<'a> ser::Serializer for &'a mut Serializer {
     }
 
     fn serialize_none(self) -> Result<()> {
-        unimplemented!()
+        self.output
+            .truncate(self.output.len() - self.field_prefix_len());
+        Ok(())
     }
 
     fn serialize_some<T>(self, value: &T) -> Result<()>
@@ -211,8 +219,8 @@ impl<'a> ser::SerializeSeq for &'a mut Serializer {
     }
 
     fn end(self) -> Result<()> {
-        let field_prefix_len = "\n".len() + self.field.len() + ": ".len();
-        self.output.truncate(self.output.len() - field_prefix_len);
+        self.output
+            .truncate(self.output.len() - self.field_prefix_len());
         Ok(())
     }
 }
