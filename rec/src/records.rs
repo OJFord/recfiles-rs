@@ -32,6 +32,8 @@ impl<T: Record> Serialize for RecordSet<T> {
 
 #[cfg(test)]
 mod tests {
+    extern crate serde_rec;
+
     use super::*;
 
     #[test]
@@ -51,7 +53,7 @@ mod tests {
         };
 
         assert_eq!(
-            crate::to_string(&odyssey).unwrap(),
+            serde_rec::to_string(&odyssey).unwrap(),
             "Author: Homer\nTitle: The Odyssey\n\n"
         );
     }
@@ -95,7 +97,7 @@ mod tests {
         };
 
         assert_eq!(
-            crate::to_string(&set).unwrap(),
+            serde_rec::to_string(&set).unwrap(),
             "%rec: Book\n%mandatory: Author\n%mandatory: Title\n%key: Title\n\nAuthor: Waugh\nTitle: Brideshead Revisited\n\nAuthor: Homer\nTitle: The Odyssey\n\n"
         );
     }

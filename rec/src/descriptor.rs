@@ -22,7 +22,10 @@ pub struct Descriptor {
 
 #[cfg(test)]
 mod tests {
+    extern crate serde_rec;
+
     use crate::Descriptor;
+    use serde_rec::to_string;
 
     fn strings_from_strs(vec: Vec<&str>) -> Vec<String> {
         vec.iter().map(|s| s.to_string()).collect()
@@ -30,7 +33,6 @@ mod tests {
 
     mod ser {
         use super::*;
-        use crate::to_string;
 
         #[test]
         fn test_default() {
