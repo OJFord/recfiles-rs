@@ -13,11 +13,31 @@ jobs:
         id: tag
         run: echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
 
+      - uses: actions/checkout@v2
+
+      - name: Get changelog
+        id: changelog
+        run: |
+          git fetch --tags --unshallow
+          change="$(git tag | tail -n2 | tr '\n' '#' | sed -e 's/.$//' -e 's/#/../')"
+          echo "Logging commits in range $change"
+
+          log="$(git log --oneline "$change")"
+          echo "$log"
+
+          encoded="${log//'%'/'%25'}"
+          encoded="${encoded//$'\n'/'%0A'}"
+          encoded="${encoded//$'\r'/'%0D'}"
+          echo "Encoded: $encoded"
+
+          echo "::set-output name=changelog::$encoded"
+
       - name: Create Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          body: "${{ steps.changelog.outputs.changelog }}"
           draft: false
           prerelease: false
           release_name: ${{ steps.tag.outputs.tag }}
