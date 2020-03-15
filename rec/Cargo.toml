@@ -1,7 +1,10 @@
 [package]
 name = "rec"
+description = "A library for managing GNU Recfiles"
 version = "0.1.0"
 authors = ["Oliver Ford <dev@ojford.com>"]
+repository = "https://github.com/OJFord/rec-rs"
+license = "MIT"
 edition = "2018"
 
 [dependencies]

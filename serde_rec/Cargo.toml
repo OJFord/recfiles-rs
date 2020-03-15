@@ -1,7 +1,10 @@
 [package]
 name = "serde_rec"
+description = "An implementation of GNU Recfiles data format for serde"
 version = "0.1.0"
 authors = ["Oliver Ford <dev@ojford.com>"]
+repository = "https://github.com/OJFord/rec-rs"
+license = "MIT"
 edition = "2018"
 
 [dependencies]
