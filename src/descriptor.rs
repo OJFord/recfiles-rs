@@ -5,19 +5,19 @@ type Field = String;
 #[derive(Default, Serialize)]
 pub struct Descriptor {
     #[serde(rename = "%rec")]
-    name: String,
+    pub name: String,
     #[serde(rename = "%mandatory")]
-    mandatory: Option<Vec<Field>>,
+    pub mandatory: Option<Vec<Field>>,
     #[serde(rename = "%allowed")]
-    allowed: Option<Vec<Field>>,
+    pub allowed: Option<Vec<Field>>,
     #[serde(rename = "%prohibit")]
-    prohibited: Option<Vec<Field>>,
+    pub prohibited: Option<Vec<Field>>,
     #[serde(rename = "%unique")]
-    unique: Option<Vec<Field>>,
+    pub unique: Option<Vec<Field>>,
     #[serde(rename = "%key")]
-    key: Option<Vec<Field>>,
+    pub key: Option<Vec<Field>>,
     #[serde(rename = "%doc")]
-    doc: Option<String>,
+    pub description: Option<String>,
 }
 
 #[cfg(test)]
