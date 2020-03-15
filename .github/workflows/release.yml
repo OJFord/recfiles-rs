@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get tag
+        id: tag
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.tag.outputs.tag }}
+          tag_name: ${{ steps.tag.outputs.tag }}
+
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+
+     - name: Login
+       run: echo ${{ secrets.CRATES_IO_TOKEN }} | cargo login
+
+     - name: Publish to crates.io
+       run: for mfst in **/Cargo.toml; do cargo publish --manifest-path="$mfst"; done
